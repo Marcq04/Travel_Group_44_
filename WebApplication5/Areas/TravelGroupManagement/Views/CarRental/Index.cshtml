@@ -1,0 +1,51 @@
+﻿@model List<CarRental>
+@{
+    ViewData["Title"] = "Cars";
+}
+
+<h2>Cars</h2>
+@if (Model.Any())
+{
+    <table class="table table-striped" border="1">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Model</td>
+                <td>Location</td>
+                <td>Rental Min Date</td>
+                <td>Rental Max Date</td>
+                <td>Price Per Day</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+                @foreach (var car in Model)
+                {
+                    <tr>
+                        <td>@car.CarRentalId</td>
+                        <td>@car.Model</td>
+                        <td>@car.Location</td>
+                        <td>@car.RentalDateMin</td>
+                        <td>@car.RentalDateMax</td>
+                        <td>@car.PricePerDay</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@car.CarRentalId" class="btn btn-info">Details</a>
+                            <a asp-action="Delete" asp-route-id="@car.CarRentalId" class="btn btn-danger">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@car.CarRentalId" class="btn btn-primary">Update</a>
+                        </td>
+                    </tr>
+                }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No Car</p>
+}
+
+<p>
+    <a class="btn btn-primary btn-square btn-rounded" asp-controller="CarRental" asp-action="Create">
+        <span>Add Car</span>
+    </a>
+</p>
+

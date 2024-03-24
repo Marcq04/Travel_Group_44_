@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<Flight>
+@{
+    ViewData["Title"] = "Flights";
+}
+
+<h2>Flights</h2>
+@if (Model.Any())
+{
+    <table class="table table-striped" border="1">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>DepartureLoction</td>
+                <td>DestinationLocation</td>
+                <td>DepartureDate</td>
+                <td>ArrivalDate</td>
+                <td>Passengers</td>
+                <td>Price</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+                @foreach (var flight in Model)
+                {
+                    <tr>
+                        <td>@flight.FlightId</td>
+                        <td>@flight.DepartureLocation</td>
+                        <td>@flight.DestinationLocation</td>
+                        <td>@flight.DepartureDate</td>
+                        <td>@flight.ArrivalDate</td>
+                        <td>@flight.NumberOfPassengers</td>
+                        <td>@flight.Price</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@flight.FlightId" class="btn btn-info">Details</a>
+                            <a asp-action="Delete" asp-route-id="@flight.FlightId" class="btn btn-danger">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@flight.FlightId" class="btn btn-primary">Update</a>
+                        </td>
+                    </tr>
+                }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No Flight</p>
+}
+
+<p>
+    <a class="btn btn-primary btn-square btn-rounded" asp-controller="Flight" asp-action="Create">
+        <span>Add Flight</span>
+    </a>
+</p>

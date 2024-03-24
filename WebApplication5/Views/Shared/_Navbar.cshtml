@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="~/images/clouds.png" height="75px" width="75px" alt="Clouds Image" class="clouds-img" />
+            </div>
+            <div class="col-md-6">
+                <img src="~/images/stars.png" height="75px" width="75px" alt="Stars Image" class="stars-img" />
+            </div>
+        </div>
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+            <img src="~/images/logo.png" height="75px" width="75px" />
+        </a>
+        <img src="~/images/stars.png" height="75px" width="75px" alt="Stars Image" class="stars-img" />
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!--This is the search form-->
+        <form class="d-flex" asp-controller="Home" asp-action="GeneralSearch" method="get">
+            <input class="form-control" type="text" placeholder="Search" name="searchString" />
+            <select class="form-control btn btn-secondary dropdown-toggle" name="searchType">
+                <option value="Flights">Flights</option>
+                <option value="Hotels">Hotels</option>
+                <option value="Cars">Cars</option>
+            </select>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i>Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About"><i class="fas fa-info-circle"></i>About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="TravelGroupManagement" asp-controller="Flight" asp-action="Index"><i class="fas fa-plane"></i>Flights</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="TravelGroupManagement" asp-controller="Hotel" asp-action="Index"><i class="fas fa-hotel"></i>Hotels</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="TravelGroupManagement" asp-controller="CarRental" asp-action="Index"><i class="fas fa-car"></i>Car Rental</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,84 @@
+﻿@model Hotel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Hotel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckInDate" class="control-label"></label>
+                <input asp-for="CheckInDate" class="form-control" />
+                <span asp-validation-for="CheckInDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckOutDate" class="control-label"></label>
+                <input asp-for="CheckOutDate" class="form-control" />
+                <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfGuests" class="control-label"></label>
+                <select asp-for="NumberOfGuests" class="form-control">
+                    <option value="">Select Number of Guests and Rooms</option>
+                    <option value="1">1 Guest, 1 Room</option>
+                    <option value="2">2 Guests, 1 Room</option>
+                    <option value="3">3 Guests, 1 Room</option>
+                    <option value="4">4 Guests, 1 Room</option>
+                    <option value="5">5 Guests, 2 Rooms</option>
+                    <option value="6">6 Guests, 2 Rooms</option>
+                    <option value="7">7 Guests, 2 Rooms</option>
+                    <option value="8">8 Guests, 2 Rooms</option>
+                </select>
+                <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rating" class="control-label"></label>
+                <select asp-for="Rating" class="form-control">
+                    <option value="">Select a Rating</option>
+                    <option value="1">1 Star</option>
+                    <option value="1.5">1.5 Stars</option>
+                    <option value="2">2 Stars</option>
+                    <option value="2.5">2.5 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="3.5">3.5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="4.5">4.5 Stars</option>
+                    <option value="5">5 Stars</option>
+                </select>
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PricePerNight" class="control-label"></label>
+                <input asp-for="PricePerNight" class="form-control" />
+                <span asp-validation-for="PricePerNight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
