@@ -1,0 +1,50 @@
+﻿@model WebApplication5.Areas.TravelGroupManagement.Models.CarRentalBooking
+
+@{
+    ViewData["Title"] = "Edit Booking";
+}
+
+<h1>Edit</h1>
+
+<h4>CarRentalBooking</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post">
+            @Html.HiddenFor(model => model.CBookingId)
+            <div class="form-group">
+                <label asp-for="CarRentalId" class="control-label"></label>
+                <input asp-for="CarRentalId" class="form-control" />
+                <span asp-validation-for="CarRentalId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RenterName" class="control-label"></label>
+                <input asp-for="RenterName" class="form-control" />
+                <span asp-validation-for="RenterName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RenterEmail" class="control-label"></label>
+                <input asp-for="RenterEmail" class="form-control" />
+                <span asp-validation-for="RenterEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RentalStartDate" class="control-label"></label>
+                <input asp-for="RentalStartDate" class="form-control" />
+                <span asp-validation-for="RentalStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RentalEndDate" class="control-label"></label>
+                <input asp-for="RentalEndDate" class="form-control" />
+                <span asp-validation-for="RentalEndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" asp-route-carRentalId="@Model.CarRentalId" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

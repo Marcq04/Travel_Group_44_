@@ -14,5 +14,7 @@ namespace WebApplication5.Areas.TravelGroupManagement.Models
         public DateTime RentalDateMax { get; set; }
         public decimal PricePerDay { get; set; }
         public string? ImagePath { get; set; }
+
+        public List<CarRentalBooking>? Bookings { get; set; }
     }
 }

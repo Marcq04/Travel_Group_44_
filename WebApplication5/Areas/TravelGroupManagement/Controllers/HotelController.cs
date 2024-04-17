@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplication5.Areas.TravelGroupManagement.Models;
 using WebApplication5.Data;
+using WebApplication5.Services;
 
 namespace WebApplication5.Areas.TravelGroupManagement.Controllers
 {
@@ -11,22 +12,43 @@ namespace WebApplication5.Areas.TravelGroupManagement.Controllers
     {
 
         private readonly AppDbContext _db;
+        private readonly ILogger<HotelController> _logger;
+        private readonly ISessionService _sessionService;
 
-        public HotelController(AppDbContext db)
+        public HotelController(AppDbContext db, ILogger<HotelController> logger, ISessionService sessionService)
         {
             _db = db;
+            _logger = logger;
+            _sessionService = sessionService;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var hotels = await _db.Hotels.ToListAsync();
-            return View(hotels);
+            _logger.LogInformation("Calling hotel index action");
+            try
+            {
+                var hotels = await _db.Hotels.ToListAsync();
+
+                var value = _sessionService.GetSessionData<int?>("Visited") ?? 0;
+                _sessionService.SetSessionData("Visited", value + 1);
+
+                ViewBag.mysession = value + 1;
+
+                _logger.LogInformation("Hello");
+                return View(hotels);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return View(null);
+            }
         }
 
         [HttpGet("Details/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
+            _logger.LogInformation("Calling hotel index action");
             var hotel = await _db.Hotels.FirstOrDefaultAsync(f => f.HotelId == id);
             if (hotel == null)
             {

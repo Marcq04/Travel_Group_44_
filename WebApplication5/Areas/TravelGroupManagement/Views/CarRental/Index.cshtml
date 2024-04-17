@@ -1,9 +1,13 @@
 ﻿@model List<CarRental>
 @{
     ViewData["Title"] = "Cars";
+    bool searchPerformed = ViewData["SearchPerformed"] as bool? ?? false;
+    string searchString = ViewData["SearchString"] as string;
 }
 
 <h2>Cars</h2>
+
+<h3>my session variable : @ViewBag.mysession</h3>
 @if (Model.Any())
 {
     <table class="table table-striped" border="1">
@@ -32,6 +36,7 @@
                             <a asp-action="Details" asp-route-id="@car.CarRentalId" class="btn btn-info">Details</a>
                             <a asp-action="Delete" asp-route-id="@car.CarRentalId" class="btn btn-danger">Delete</a>
                             <a asp-action="Edit" asp-route-id="@car.CarRentalId" class="btn btn-primary">Update</a>
+                            <a asp-controller="CarRentalBookings" asp-action="Index" asp-route-carRentalId="@car.CarRentalId" class="btn btn-success">Book</a>
                         </td>
                     </tr>
                 }
@@ -40,7 +45,14 @@
 }
 else
 {
-    <p>No Car</p>
+    if (searchPerformed)
+    {
+        <p>No Car Rentals with model "@searchString".</p>
+    }
+    else
+    {
+        <p>No Car Rentals Available</p>
+    }
 }
 
 <p>

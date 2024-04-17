@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplication5.Areas.TravelGroupManagement.Models;
 using WebApplication5.Data;
+using WebApplication5.Services;
 
 namespace WebApplication5.Areas.TravelGroupManagement.Controllers
 {
@@ -10,22 +11,43 @@ namespace WebApplication5.Areas.TravelGroupManagement.Controllers
     public class CarRentalController : Controller
     {
         private readonly AppDbContext _db;
+        private readonly ILogger<CarRentalController> _logger;
+        private readonly ISessionService _sessionService;
 
-        public CarRentalController(AppDbContext db)
+        public CarRentalController(AppDbContext db, ILogger<CarRentalController> logger, ISessionService sessionService)
         {
             _db = db;
+            _logger = logger;
+            _sessionService = sessionService;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var cars = await _db.Cars.ToListAsync();
-            return View(cars);
+            _logger.LogInformation("Calling car rental index action");
+            try
+            {
+                var cars = await _db.Cars.ToListAsync();
+
+                var value = _sessionService.GetSessionData<int?>("Visited") ?? 0;
+                _sessionService.SetSessionData("Visited", value + 1);
+
+                ViewBag.mysession = value + 1;
+
+                _logger.LogInformation("Hello");
+                return View(cars);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return View(null);
+            }
         }
 
         [HttpGet("Details/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
+            _logger.LogInformation("Calling car rental index action");
             var car = await _db.Cars.FirstOrDefaultAsync(c => c.CarRentalId == id);
             if (car == null)
             {
@@ -68,7 +90,7 @@ namespace WebApplication5.Areas.TravelGroupManagement.Controllers
 
         [HttpPost("Edit/{id:int}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CarRentalId, Model, Location, PricePerDay")] CarRental car)
+        public async Task<IActionResult> Edit(int id, [Bind("CarRentalId", "Model", "Location", "RentalDateMin", "RentalDateMax", "PricePerDay", "ImagePath")] CarRental car)
         {
             if (id != car.CarRentalId)
             {

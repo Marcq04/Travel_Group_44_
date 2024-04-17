@@ -3,6 +3,10 @@
 *@
 @{
 }
+@using Microsoft.AspNetCore.Identity;
+@using WebApplication5.Areas.TravelGroupManagement.Models;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
     <div class="container-fluid">
@@ -49,6 +53,38 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="TravelGroupManagement" asp-controller="CarRental" asp-action="Index"><i class="fas fa-car"></i>Car Rental</a>
                 </li>
+                <!--Sign In Manager-->
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <li class="nav-item d-flex align-items-center">
+                        @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null)
+                        {
+                            <img style="width: 40px; height: 40px; object-fit: cover; border-radius: 20px; margin-right: 2px;" 
+                            src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture))"/>
+                        }
+                        <a class="nav-link text-dark" style="padding-left: 2px; margin-left: 0;" asp-area="Identity" asp-page="/Account/Manage/Index" 
+                        title="Manage"><i class="fa fa-user-circle"></i> Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                            <button type="submit" class="nav-link btn btn-link text-dark" style="cursor:pointer">Logout</button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="/" asp-controller="/RoleManager"><i class="fade fa-sign-in-alt"></i> Role Manager</a>
+                    </li>
+                    <li class="nav-item">
+                        <a clss="nav-link text-dark" asp-area="/" asp-controller="/UserRoles"><i class="fade fa-sin-in-alt"> User Roles</i></a>
+                    </li>
+                }
+                else {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login"><i class="fa fa-sign-in-alt"></i> Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register"><i class="fa fa-user-plus"></i> Register</a>
+                    </li>
+                }
             </ul>
         </div>
     </div>

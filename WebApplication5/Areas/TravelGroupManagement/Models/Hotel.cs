@@ -16,5 +16,7 @@ namespace WebApplication5.Areas.TravelGroupManagement.Models
         public double Rating { get; set; }
         public decimal PricePerNight { get; set; }
         public string? ImagePath { get; set; }
+
+        public List<HotelBooking>? Bookings { get; set; }
     }
 }

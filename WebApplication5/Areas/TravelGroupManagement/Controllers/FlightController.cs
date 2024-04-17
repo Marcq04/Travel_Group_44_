@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using WebApplication5.Areas.TravelGroupManagement.Models;
 using WebApplication5.Data;
+using WebApplication5.Services;
 
 namespace WebApplication5.Areas.TravelGroupManagement.Controllers
 {
@@ -11,22 +12,43 @@ namespace WebApplication5.Areas.TravelGroupManagement.Controllers
     public class FlightController : Controller
     {
         private readonly AppDbContext _db;
+        private readonly ILogger<FlightController> _logger;
+        private readonly ISessionService _sessionService;
 
-        public FlightController(AppDbContext db)
+        public FlightController(AppDbContext db, ILogger<FlightController> logger, ISessionService sessionService)
         {
             _db = db;
+            _logger = logger;
+            _sessionService = sessionService;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var flights = await _db.Flights.ToListAsync();
-            return View(flights);
+            _logger.LogInformation("Calling flight index action");
+            try
+            {
+                var flights = await _db.Flights.ToListAsync(); 
+
+                var value = _sessionService.GetSessionData<int?>("Visited") ?? 0;
+                _sessionService.SetSessionData("Visited", value + 1);
+
+                ViewBag.mysession = value + 1;
+
+                _logger.LogInformation("Hello");
+                return View(flights);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return View(null);
+            }
         }
 
         [HttpGet("Details/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
+            _logger.LogInformation("Calling flight detail action");
             var flight = await _db.Flights.FirstOrDefaultAsync(f => f.FlightId == id);
             if (flight == null)
             {
@@ -47,8 +69,8 @@ namespace WebApplication5.Areas.TravelGroupManagement.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Flights.Add(flight);
-                _db.SaveChanges();
+                await _db.Flights.AddAsync(flight);
+                await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(flight);
