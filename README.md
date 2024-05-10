@@ -2,7 +2,7 @@
 
 ### About
 
-Please note that this is the first half of the project and thus, the final project will be released later in April 2024.
+ASP.NET Project
 
 ### Potential Upgrades for the complete project
 * Create/Register an account for this .NET
